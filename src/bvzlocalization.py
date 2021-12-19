@@ -81,13 +81,16 @@ class LocalizedResource(configparser.SafeConfigParser):
         """
         Setup this subclass of the default python config parser.
 
-        :param resources_d: The directory where the localized resources files are stored.
-        :param prefix: The prefix for the resources file. For example, if you want to read the "squirrel_english.ini"
-               localized resources file, the prefix would be: "squirrel". Required.
-        :param language: The language to use when parsing the resources file. If no language is supplied, defaults to
-               "english".
+        :param resources_d:
+                The directory where the localized resources files are stored.
+        :param prefix:
+                The prefix for the resources file. For example, if you want to read the "squirrel_english.ini" localized
+                resources file, the prefix would be: "squirrel". Required.
+        :param language:
+                The language to use when parsing the resources file. If no language is supplied, defaults to "english".
 
-        :return: Nothing.
+        :return:
+                Nothing.
         """
 
         configparser.SafeConfigParser.__init__(self, allow_no_value=True)
@@ -102,7 +105,8 @@ class LocalizedResource(configparser.SafeConfigParser):
         """
         Opens up the appropriate localized resource .ini file and reads its contents.
 
-        :return: Nothing.
+        :return:
+                Nothing.
         """
 
         # If this file does not exist, warn the user and bail. Since we cannot find a language yet, report the error in
@@ -122,9 +126,11 @@ class LocalizedResource(configparser.SafeConfigParser):
         Given a string (msg) this will format it with colors based on the {{COLOR}} tags. (example {{COLOR_RED}}). It
         will also convert literal \n character string into a proper newline.
 
-        :param msg: The string to format.
+        :param msg:
+                The string to format.
 
-        :return: The formatted string.
+        :return:
+                The formatted string.
         """
 
         output = msg.replace(r"\n", "\n")
@@ -153,9 +159,11 @@ class LocalizedResource(configparser.SafeConfigParser):
         """
         Extracts the error message associated with the code.
 
-        :param code: The code for the error message.
+        :param code:
+                The code for the error message.
 
-        :return: The string associated with this code.
+        :return:
+                The string associated with this code.
         """
 
         assert self.has_section("error_codes")
@@ -171,9 +179,11 @@ class LocalizedResource(configparser.SafeConfigParser):
         """
         Extracts the message associated with the key.
 
-        :param message_key: The key for the message.
+        :param message_key:
+                The key for the message.
 
-        :return: A string.
+        :return:
+                A string.
         """
 
         assert self.has_section("messages")

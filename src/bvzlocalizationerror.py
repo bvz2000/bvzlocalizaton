@@ -1,6 +1,6 @@
 class LocalizationError(Exception):
     """
-    Asset exception
+    Localization exception
     """
 
     def __init__(self, message, errno=0):
