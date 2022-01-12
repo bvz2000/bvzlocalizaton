@@ -73,7 +73,8 @@ ENDC = '\033[0m'
 # ======================================================================================================================
 class LocalizedResource(configparser.SafeConfigParser):
     """
-    Class to manage the localized resources file. Subclassed from the default python config parser.
+A    Class to manage the localized resources file. Subclassed from the default python config parser. Note, all error
+    messages are presented in English because by definition no language file has been loaded yet.
     """
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -92,6 +93,11 @@ class LocalizedResource(configparser.SafeConfigParser):
         :return:
                 Nothing.
         """
+
+        assert type(resources_d) is str
+
+        if not os.path.exists(resources_d):
+            raise LocalizationError(f"Resources directory {resources_d} does not exist.")
 
         configparser.SafeConfigParser.__init__(self, allow_no_value=True)
 
@@ -133,6 +139,8 @@ class LocalizedResource(configparser.SafeConfigParser):
                 The formatted string.
         """
 
+        assert type(msg) is str
+
         output = msg.replace(r"\n", "\n")
 
         output = output.replace("{{COLOR_BLACK}}", BLACK)
@@ -166,8 +174,15 @@ class LocalizedResource(configparser.SafeConfigParser):
                 The string associated with this code.
         """
 
-        assert self.has_section("error_codes")
-        assert self.has_option("error_codes", str(code))
+        assert type(code) is str or type(code) is int
+
+        if not self.has_section("error_codes"):
+            msg = f"Localization file {self.resources_p} is corrupt: It is missing the error_codes section."
+            raise LocalizationError(msg, 2)
+
+        if not self.has_option("error_codes", str(code)):
+            msg = f"Localization file {self.resources_p} is corrupt: It is missing the error_code: {code}."
+            raise LocalizationError(msg, 3)
 
         msg = self.get("error_codes", str(code))
         msg = self._format_string(msg)
@@ -186,8 +201,15 @@ class LocalizedResource(configparser.SafeConfigParser):
                 A string.
         """
 
-        assert self.has_section("messages")
-        assert self.has_option("messages", str(message_key))
+        assert type(message_key) is str
+
+        if not self.has_section("messages"):
+            msg = f"Localization file {self.resources_p} is corrupt: It is missing the messages section."
+            raise LocalizationError(msg, 4)
+
+        if not self.has_option("messages", str(message_key)):
+            msg = f"Loalization file {self.resources_p} is corrupt: It is missing the message: {message_key}."
+            raise LocalizationError(msg, 5)
 
         msg = self.get("messages", str(message_key))
         msg = self._format_string(msg)
