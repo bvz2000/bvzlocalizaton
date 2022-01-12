@@ -73,7 +73,7 @@ ENDC = '\033[0m'
 # ======================================================================================================================
 class LocalizedResource(configparser.SafeConfigParser):
     """
-A    Class to manage the localized resources file. Subclassed from the default python config parser. Note, all error
+    A Class to manage the localized resources file. Subclassed from the default python config parser. Note, all error
     messages are presented in English because by definition no language file has been loaded yet.
     """
 
@@ -208,7 +208,7 @@ A    Class to manage the localized resources file. Subclassed from the default p
             raise LocalizationError(msg, 4)
 
         if not self.has_option("messages", str(message_key)):
-            msg = f"Loalization file {self.resources_p} is corrupt: It is missing the message: {message_key}."
+            msg = f"Localization file {self.resources_p} is corrupt: It is missing the message: {message_key}."
             raise LocalizationError(msg, 5)
 
         msg = self.get("messages", str(message_key))
